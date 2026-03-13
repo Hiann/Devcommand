@@ -75,45 +75,29 @@ export const ExcelModule: React.FC<ExcelModuleProps> = ({ commands, searchTerm }
   );
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-3 mb-6">
-        <div className="p-2 rounded-lg bg-green-500/20">
-          <Database className="text-green-600 dark:text-green-400" size={24} />
-        </div>
-        <div>
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white">Excel Corporativo</h2>
-          <p className="text-slate-500 dark:text-white/40 text-sm">Do básico ao God Mode: matemática vetorial e automação pesada de dados</p>
-        </div>
-      </div>
-
-      {searchTerm ? (
+      <div className="space-y-6">
+        {/* Cabeçalho antigo removido daqui! O App.tsx agora cuida disso. */}
+  
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {filtered.map((command, idx) => (
             <CommandCard 
               key={command.id} 
               command={command} 
               index={idx}
-              moduleColor="from-green-500 to-emerald-600"
+              moduleColor="from-purple-500 to-pink-600"
             />
           ))}
         </div>
-      ) : (
-        <div className="space-y-4">
-          {EXCEL_CATEGORIES.map((category, idx) => (
-            <CategorySection key={category.category} category={category} index={idx} />
-          ))}
-        </div>
-      )}
-
-      {filtered.length === 0 && searchTerm && (
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="text-center py-12 text-slate-400 dark:text-white/40"
-        >
-          <p>Nenhuma função encontrada para "{searchTerm}"</p>
-        </motion.div>
-      )}
-    </div>
-  );
+  
+        {filtered.length === 0 && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center py-12 text-slate-400 dark:text-white/40"
+          >
+            <p>Nenhum comando encontrado para "{searchTerm}"</p>
+          </motion.div>
+        )}
+      </div>
+    );
 };

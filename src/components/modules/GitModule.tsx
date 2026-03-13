@@ -12,7 +12,6 @@ interface GitModuleProps {
 }
 
 const WorkflowPhase: React.FC<{ phase: GitWorkflowStep; index: number }> = ({ phase, index }) => {
-  // ALTERAÇÃO AQUI: Agora inicia sempre como false, igual ao Excel
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -69,16 +68,7 @@ export const GitModule: React.FC<GitModuleProps> = ({ commands, searchTerm }) =>
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-3 mb-6">
-        <div className="p-2 rounded-lg bg-orange-500/20">
-          <GitBranch className="text-orange-600 dark:text-orange-400" size={24} />
-        </div>
-        <div>
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white">Versionamento Git</h2>
-          <p className="text-slate-500 dark:text-white/40 text-sm">Fluxo de trabalho completo, do init ao deploy avançado</p>
-        </div>
-      </div>
-
+      {/* Se o usuário estiver pesquisando algo, mostra os cards filtrados */}
       {searchTerm ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {filtered.map((command, idx) => (
@@ -91,30 +81,18 @@ export const GitModule: React.FC<GitModuleProps> = ({ commands, searchTerm }) =>
           ))}
         </div>
       ) : (
+        /* Se NÃO estiver pesquisando, mostra APENAS o Workflow em blocos limpos */
         <div className="space-y-6">
           <div>
-            <h3 className="text-slate-400 dark:text-white/60 text-sm uppercase tracking-wider mb-4">Workflow Completo</h3>
+            <h3 className="text-slate-400 dark:text-white/60 text-sm uppercase tracking-wider mb-4 font-bold">Workflow Completo</h3>
             {GIT_WORKFLOW.map((phase, idx) => (
               <WorkflowPhase key={phase.phase} phase={phase} index={idx} />
             ))}
           </div>
-          
-          <div>
-            <h3 className="text-slate-400 dark:text-white/60 text-sm uppercase tracking-wider mb-4">Comandos Rápidos</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {commands.slice(0, 8).map((command, idx) => (
-                <CommandCard 
-                  key={command.id} 
-                  command={command} 
-                  index={idx}
-                  moduleColor="from-orange-500 to-red-600"
-                />
-              ))}
-            </div>
-          </div>
         </div>
       )}
 
+      {/* Mensagem caso a pesquisa não encontre nada */}
       {filtered.length === 0 && searchTerm && (
         <motion.div 
           initial={{ opacity: 0 }}

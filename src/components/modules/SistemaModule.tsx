@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { CommandCard } from '../ui/CommandCard';
 import { Command } from '../../types';
-import { Cpu } from 'lucide-react'; // Importação do ícone para bater com a Sidebar
+import { Cpu } from 'lucide-react'; 
 
 interface SistemaModuleProps {
   commands: Command[];
@@ -18,23 +18,6 @@ export const SistemaModule: React.FC<SistemaModuleProps> = ({ commands, searchTe
 
   return (
     <div className="space-y-6">
-      {/* Cabeçalho do Módulo - Ajustado para unificar com o ícone da Sidebar */}
-      <div className="flex items-center gap-3 mb-6">
-        <div className="p-2 rounded-lg bg-cyan-500/20 flex items-center justify-center">
-          {/* Substituído o ⊞ pelo ícone Cpu para manter a consistência visual */}
-          <Cpu className="text-cyan-600 dark:text-cyan-400" size={24} />
-        </div>
-        <div>
-          {/* Títulos e textos com as cores Slate para vida no modo claro */}
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white">
-            Sistema & Produtividade
-          </h2>
-          <p className="text-slate-500 dark:text-white/40 text-sm">
-            Dominando o ambiente Windows, multitarefa e atalhos vitais
-          </p>
-        </div>
-      </div>
-
       {/* Grid de Comandos */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {filtered.map((command, idx) => (

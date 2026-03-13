@@ -1928,5 +1928,146 @@ export const MODULES: Module[] = [
     color: 'yellow',
     gradient: 'from-yellow-500 to-orange-600',
     commands: TERMINAL_COMMANDS  // Vazio porque usamos TERMINAL_COMMANDS separado
-  }
+  },
+{
+    id: 'vercel',
+    title: 'Vercel & Deploy',
+    description: 'Domínio absoluto da infraestrutura serverless, CI/CD e ambientes de produção.',
+    icon: 'Triangle', // Ícone idêntico à logo da Vercel
+    color: 'yellow',
+    gradient: 'from-yellow-400 to-amber-500', // Amarelo profissional e vibrante
+    commands: [
+      // ==========================================
+      // AUTENTICAÇÃO E SETUP GERAL
+      // ==========================================
+      { 
+        id: 'vercel-install', 
+        keys: 'npm i -g vercel', 
+        action: 'Instalar CLI Global', 
+        context: 'Instala a interface de linha de comando da Vercel na sua máquina para permitir o controle total da nuvem sem precisar abrir o navegador.',
+        category: 'Autenticação e Setup',
+        tags: ['vercel', 'cli', 'instalação', 'npm']
+      },
+      { 
+        id: 'vercel-login', 
+        keys: 'vercel login', 
+        action: 'Autenticar Sessão', 
+        context: 'Gera um token de segurança e conecta o terminal do seu VS Code diretamente à sua conta da Vercel.',
+        category: 'Autenticação e Setup',
+        tags: ['vercel', 'login', 'auth', 'segurança']
+      },
+      { 
+        id: 'vercel-whoami', 
+        keys: 'vercel whoami', 
+        action: 'Verificar Usuário Logado', 
+        context: 'Confirma qual conta da Vercel está ativa no momento. Útil se você trabalha com múltiplas contas (pessoal e da empresa).',
+        category: 'Autenticação e Setup',
+        tags: ['vercel', 'whoami', 'usuário', 'conta']
+      },
+
+      // ==========================================
+      // CONFIGURAÇÃO DE PROJETO LOCAL
+      // ==========================================
+      { 
+        id: 'vercel-link', 
+        keys: 'vercel link', 
+        action: 'Vincular Repositório', 
+        context: 'Sincroniza a pasta atual do seu computador a um projeto que já existe no painel da Vercel. Fundamental para deploys corretos.',
+        category: 'Configuração de Projeto',
+        tags: ['vercel', 'link', 'sincronização', 'projeto']
+      },
+      { 
+        id: 'vercel-build', 
+        keys: 'vercel build', 
+        action: 'Build com Motor Vercel', 
+        context: 'Força a compilação do projeto na sua máquina local utilizando o mesmo motor e regras que a Vercel usa em produção. Excelente para encontrar erros antes do deploy.',
+        category: 'Configuração de Projeto',
+        tags: ['vercel', 'build', 'compilação', 'teste']
+      },
+
+      // ==========================================
+      // GESTÃO DE VARIÁVEIS DE AMBIENTE (SECRETS)
+      // ==========================================
+      { 
+        id: 'vercel-env-pull', 
+        keys: 'vercel env pull .env.local', 
+        action: 'Clonar Variáveis (Pull)', 
+        context: 'Baixa de forma criptografada todas as senhas, tokens e chaves de API do painel da Vercel direto para o seu arquivo .env.local.',
+        category: 'Variáveis de Ambiente',
+        tags: ['vercel', 'env', 'pull', 'segurança']
+      },
+      { 
+        id: 'vercel-env-ls', 
+        keys: 'vercel env ls', 
+        action: 'Listar Variáveis Ativas', 
+        context: 'Exibe no terminal todas as chaves de ambiente configuradas para o projeto atual, separadas por ambiente (Development, Preview, Production).',
+        category: 'Variáveis de Ambiente',
+        tags: ['vercel', 'env', 'listar', 'painel']
+      },
+      { 
+        id: 'vercel-env-add', 
+        keys: 'vercel env add <nome>', 
+        action: 'Adicionar Nova Variável', 
+        context: 'Permite criar uma nova variável de ambiente (como a chave de um banco de dados novo) direto pelo terminal, sem tocar na interface web.',
+        category: 'Variáveis de Ambiente',
+        tags: ['vercel', 'env', 'adicionar', 'chave']
+      },
+
+      // ==========================================
+      // DESENVOLVIMENTO E DEPLOYMENT
+      // ==========================================
+      { 
+        id: 'vercel-dev', 
+        keys: 'vercel dev', 
+        action: 'Subir Servidor Simulado', 
+        context: 'Inicia o projeto em localhost, mas rodando com a infraestrutura e o roteamento exatos da Vercel (incluindo Serverless Functions).',
+        category: 'Desenvolvimento e Deploy',
+        tags: ['vercel', 'dev', 'serverless', 'localhost']
+      },
+      { 
+        id: 'vercel-deploy-preview', 
+        keys: 'vercel', 
+        action: 'Deploy de Homologação (Preview)', 
+        context: 'Faz o envio do código e gera um link temporário exclusivo. É o ambiente seguro para apresentar novas features ao cliente antes de ir ao ar.',
+        category: 'Desenvolvimento e Deploy',
+        tags: ['vercel', 'deploy', 'preview', 'homologação']
+      },
+      { 
+        id: 'vercel-deploy-prod', 
+        keys: 'vercel --prod', 
+        action: 'Deploy de Produção (Oficial)', 
+        context: 'O botão de lançamento. Compila, otimiza e empurra o código para o domínio principal do site de forma instantânea.',
+        category: 'Desenvolvimento e Deploy',
+        tags: ['vercel', 'produção', 'deploy', 'live', 'prod']
+      },
+
+      // ==========================================
+      // MONITORAMENTO E RECUPERAÇÃO DE DESASTRES
+      // ==========================================
+      { 
+        id: 'vercel-logs', 
+        keys: 'vercel logs <url>', 
+        action: 'Streaming de Logs de Servidor', 
+        context: 'Abre o fluxo de logs do servidor em tempo real. Essencial para rastrear bugs de API (Error 500) que só acontecem quando o site está online.',
+        category: 'Monitoramento e Desastres',
+        tags: ['vercel', 'logs', 'debug', 'erros']
+      },
+      { 
+        id: 'vercel-rollback', 
+        keys: 'vercel rollback', 
+        action: 'Reverter Produção (Rollback)', 
+        context: 'Comando de salvamento extremo. Se a versão atual quebrar o site, isso reverte imediatamente para a última build estável.',
+        category: 'Monitoramento e Desastres',
+        tags: ['vercel', 'rollback', 'emergência', 'reverter']
+      },
+      { 
+        id: 'vercel-domains-ls', 
+        keys: 'vercel domains ls', 
+        action: 'Auditoria de Domínios', 
+        context: 'Lista todos os domínios (URLs) que estão vinculados e apontando para o seu projeto atual.',
+        category: 'Monitoramento e Desastres',
+        tags: ['vercel', 'domínios', 'url', 'dns']
+      }
+    ]
+  },
 ];

@@ -1,28 +1,37 @@
 import React, { useMemo, memo } from 'react';
 import { motion } from 'framer-motion';
 import { 
-  Cpu, FileCode, GitBranch, Type, Database, Terminal, ChevronRight 
+  Cpu, FileCode, GitBranch, Type, Database, Terminal, ChevronRight, 
+  Triangle, Layout, Server 
 } from 'lucide-react';
 import { Module } from '../../types';
 
 // ==========================================
-// 1. CONFIGURAÇÕES ESTÁTICAS (Design Tokens)
+// 1. CONFIGURAÇÕES ESTÁTICAS E ÍCONES
 // ==========================================
 
 const ICONS: Record<string, React.ElementType> = {
-  Cpu, FileCode, GitBranch, Type, Database, Terminal
+  Cpu, FileCode, GitBranch, Type, Database, Terminal, Triangle, Layout, Server
 };
 
-const MODULE_THEMES: Record<string, { gradient?: string; shadow: string; hoverAccent: string }> = {
-  markdown: { gradient: 'from-red-500 to-rose-600', shadow: 'shadow-red-500/20', hoverAccent: 'group-hover:text-red-500 dark:group-hover:text-red-400' },
-  terminal: { gradient: 'from-amber-500 to-orange-600', shadow: 'shadow-orange-500/20', hoverAccent: 'group-hover:text-amber-500 dark:group-hover:text-amber-400' },
-  vscode: { gradient: 'from-purple-500 to-fuchsia-600', shadow: 'shadow-purple-500/20', hoverAccent: 'group-hover:text-purple-500 dark:group-hover:text-purple-400' },
+// MAPEAMENTO CORRIGIDO: Agora usando exatamente os IDs do commands.ts
+const MODULE_THEMES: Record<string, { gradient: string; shadow: string; hoverAccent: string }> = {
+  sistema: { gradient: 'from-cyan-500 to-blue-600', shadow: 'shadow-cyan-500/25', hoverAccent: 'group-hover:text-cyan-500 dark:group-hover:text-cyan-400' },
+  vscode: { gradient: 'from-purple-500 to-pink-600', shadow: 'shadow-purple-500/20', hoverAccent: 'group-hover:text-purple-500 dark:group-hover:text-purple-400' },
   git: { gradient: 'from-orange-500 to-red-600', shadow: 'shadow-orange-500/20', hoverAccent: 'group-hover:text-orange-500 dark:group-hover:text-orange-400' },
-  excel: { gradient: 'from-emerald-500 to-green-600', shadow: 'shadow-emerald-500/20', hoverAccent: 'group-hover:text-emerald-500 dark:group-hover:text-emerald-400' },
-  system: { gradient: 'from-cyan-500 to-blue-600', shadow: 'shadow-cyan-500/20', hoverAccent: 'group-hover:text-cyan-500 dark:group-hover:text-cyan-400' }
+  markdown: { gradient: 'from-emerald-500 to-teal-600', shadow: 'shadow-emerald-500/20', hoverAccent: 'group-hover:text-emerald-500 dark:group-hover:text-emerald-400' },
+  excel: { gradient: 'from-green-500 to-emerald-600', shadow: 'shadow-green-500/20', hoverAccent: 'group-hover:text-green-500 dark:group-hover:text-green-400' },
+  terminal: { gradient: 'from-yellow-500 to-orange-600', shadow: 'shadow-orange-500/20', hoverAccent: 'group-hover:text-yellow-500 dark:group-hover:text-yellow-400' },
+  vercel: { gradient: 'from-yellow-400 to-amber-500', shadow: 'shadow-yellow-500/30', hoverAccent: 'group-hover:text-yellow-500 dark:group-hover:text-yellow-400' },
+  frontend: { gradient: 'from-blue-500 to-cyan-400', shadow: 'shadow-blue-500/20', hoverAccent: 'group-hover:text-blue-500 dark:group-hover:text-blue-400' },
+  'backend-ai': { gradient: 'from-rose-500 to-red-600', shadow: 'shadow-rose-500/20', hoverAccent: 'group-hover:text-rose-500 dark:group-hover:text-rose-400' }
 };
 
-const DEFAULT_THEME = { gradient: 'from-cyan-500 to-blue-600', shadow: 'shadow-cyan-500/20', hoverAccent: 'group-hover:text-cyan-500' };
+const DEFAULT_THEME = { 
+  gradient: 'from-slate-500 to-slate-700', 
+  shadow: 'shadow-slate-500/25', 
+  hoverAccent: 'group-hover:text-slate-500' 
+};
 
 // ==========================================
 // 2. INTERFACES
@@ -51,7 +60,8 @@ const AnimatedIcon = ({ icon: Icon, isActive, id }: { icon: any, isActive: boole
       whileHover={!isActive ? { rotate: [0, -8, 8, 0], scale: 1.1 } : {}}
       transition={{ duration: 0.4, ease: "easeInOut" }}
     >
-      <Icon size={20} />
+      <Icon size={20} fill={id === 'vercel' ? "currentColor" : "none"} strokeWidth={id === 'vercel' ? 0 : 2} />
+      
       {id === 'terminal' && isActive && (
         <motion.div 
           animate={{ opacity: [0, 1, 0] }}
@@ -64,22 +74,8 @@ const AnimatedIcon = ({ icon: Icon, isActive, id }: { icon: any, isActive: boole
 };
 
 const ModuleNavItem = memo(({ module, isActive, onClick }: NavItemProps) => {
-  
-  // LÓGICA DE TEMAS CORRIGIDA E À PROVA DE BUGS
-  const theme = useMemo(() => {
-    const id = module.id.toLowerCase();
-    
-    // 1. Verificação explícita primeiro para não cair no erro do iterador
-    if (id.includes('sistema') || id.includes('system')) {
-      return MODULE_THEMES['system'];
-    }
-    
-    // 2. Busca dinâmica para os demais
-    const key = Object.keys(MODULE_THEMES).find(k => id.includes(k));
-    
-    return key ? MODULE_THEMES[key] : DEFAULT_THEME;
-  }, [module.id]);
-
+  // LÓGICA CORRIGIDA: Agora busca a cor exata pelo ID, sem margem para erro!
+  const theme = MODULE_THEMES[module.id] || DEFAULT_THEME;
   const IconComponent = ICONS[module.icon] || Cpu;
 
   return (
@@ -96,12 +92,17 @@ const ModuleNavItem = memo(({ module, isActive, onClick }: NavItemProps) => {
           }
         `}
       >
+        {/* Glow interno ativo */}
         {isActive && <div className="absolute inset-0 bg-white/10 opacity-50 pointer-events-none" />}
 
         <div className="relative flex items-center gap-3 z-10">
+          {/* Container do Ícone */}
           <div className={`
             flex-shrink-0 w-10 h-10 rounded-lg transition-colors duration-300 flex items-center justify-center
-            ${isActive ? 'bg-white/20 text-white' : `bg-slate-100 dark:bg-white/5 ${theme.hoverAccent}`}
+            ${isActive 
+              ? 'bg-white/20 text-white shadow-inner' 
+              : `bg-slate-100 dark:bg-white/5 ${theme.hoverAccent}`
+            }
           `}>
             <AnimatedIcon icon={IconComponent} isActive={isActive} id={module.id} />
           </div>
@@ -138,13 +139,13 @@ export const ModuleSidebar: React.FC<ModuleSidebarProps> = ({
 }) => {
   return (
     <nav aria-label="Navegação de Módulos" className="relative z-10">
-      <ul className="space-y-2.5 p-0 m-0">
+      <ul className="flex flex-row lg:flex-col overflow-x-auto lg:overflow-x-visible pb-4 lg:pb-0 gap-2.5 no-scrollbar">
         {modules.map((module) => (
           <ModuleNavItem 
-            key={module.id} 
-            module={module} 
-            isActive={activeModule === module.id} 
-            onClick={onModuleChange} 
+            key={module.id}
+            module={module}
+            isActive={activeModule === module.id}
+            onClick={() => onModuleChange(module.id)}
           />
         ))}
       </ul>
