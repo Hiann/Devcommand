@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-100 text-slate-900 dark:bg-dark-900 dark:text-white antialiased transition-colors duration-300;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply backdrop-blur-xl transition-all duration-300 border;
+    /* MODO CLARO: Fundo branco sólido + Sombra suave para flutuar no fundo slate */
+    @apply bg-white border-slate-200/60 shadow-[0_8px_30px_rgb(0,0,0,0.06)];
+    /* MODO ESCURO ORIGINAL */
+    @apply dark:bg-white/5 dark:border-white/10 dark:shadow-none;
+  }
+
+  .command-kbd {
+    @apply px-2 py-1 rounded text-xs border transition-colors;
+    font-family: 'Fira Code', monospace;
+    /* No claro, damos uma cor de destaque azulada pro atalho */
+    @apply bg-blue-50 text-blue-600 border-blue-100 shadow-sm dark:bg-dark-800 dark:text-accent-cyan dark:border-white/10 dark:shadow-none;
+  }
+}
