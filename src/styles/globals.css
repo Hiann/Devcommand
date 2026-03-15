@@ -27,3 +27,16 @@
     @apply bg-blue-50 text-blue-600 border-blue-100 shadow-sm dark:bg-dark-800 dark:text-accent-cyan dark:border-white/10 dark:shadow-none;
   }
 }
+
+@keyframes gradient-x {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.animate-gradient-slow {
+  animation: gradient-x 8s ease infinite;
+}
+
+.animate-gradient-fast {
+  animation: gradient-x 3s ease infinite;
+}

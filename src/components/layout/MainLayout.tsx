@@ -71,7 +71,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
         </AnimatePresence>
         
         <footer className="w-full mt-auto pt-10">
-          <Footer />
+          <Footer isDark={isDark} />
         </footer>
       </div>
     </div>
